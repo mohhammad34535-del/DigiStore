@@ -47,7 +47,7 @@ body {
 }
 
 .container {
-    width: 90%;
+    width: 105%;
     max-width: 1200px;
     padding: 20px;
     display: flex;
@@ -541,4 +541,5 @@ body.dark {
         width: calc(50% - 6px); /* 2 محصول در ردیف */
     }
 }
+
 
