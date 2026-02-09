@@ -21,72 +21,62 @@ let cart = JSON.parse(localStorage.getItem('cart')) || [];
    Login & Register Simulation
 ======================= */
 
-let users = JSON.parse(localStorage.getItem('users')) || []; // ایمیل و پسورد ذخیره شده
+let users = JSON.parse(localStorage.getItem('users')) || [];
 
-function registerUser() {
+async function registerUser() {
     const email = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value.trim();
     const msg = document.getElementById("msg");
 
     if (!email || !password) {
+        msg.style.color = "red";
         msg.innerText = "تمام فیلدها را پر کنید";
         return;
     }
 
     if (users.find(u => u.email === email)) {
+        msg.style.color = "red";
         msg.innerText = "این ایمیل قبلا ثبت شده";
         return;
     }
 
     users.push({ email, password });
     localStorage.setItem('users', JSON.stringify(users));
-    msg.style.color = "#00ff00";
+    msg.style.color = "green";
     msg.innerText = "ثبت‌نام موفق!";
 }
 
-function loginUser() {
+async function loginUser() {
     const email = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value.trim();
     const msg = document.getElementById("msg");
 
     const user = users.find(u => u.email === email && u.password === password);
     if (!user) {
-        msg.style.color = "#ff4444";
+        msg.style.color = "red";
         msg.innerText = "ایمیل یا رمز اشتباه است";
         return;
     }
 
-    // ذخیره اسم یا ایمیل کاربر
-    localStorage.setItem('username', email); // یا user.name اگه اسم داشته باشه
-
-    msg.style.color = "#00ff00";
+    localStorage.setItem('username', email);
+    msg.style.color = "green";
     msg.innerText = "ورود موفق!";
-    window.location.href = "index.html"; // بعد از لاگین برگرد به صفحه اصلی
+    setTimeout(() => window.location.href = "index.html", 500);
 }
-
 
 /* =======================
    DOMContentLoaded
 ======================= */
 
 document.addEventListener('DOMContentLoaded', () => {
-
-    // ---------- Login Modal ----------
-    const loginBtn = document.getElementById("loginBtn");
-    const loginModal = document.getElementById("loginModal");
-    const closeModal = document.getElementById("closeModal");
-    if (loginBtn && loginModal && closeModal) {
-        loginBtn.onclick = () => loginModal.style.display = "flex";
-        closeModal.onclick = () => loginModal.style.display = "none";
-        window.onclick = (e) => { if(e.target === loginModal) loginModal.style.display="none"; };
-    }
-
-    // ---------- Products ----------
     updateCartCount();
     if (document.getElementById('product-list')) renderProducts();
     if (document.getElementById('cart-items')) renderCartPage();
     if (document.getElementById('admin-product-list')) renderAdminProducts();
 
+    const userDisplay = document.getElementById('user-display');
+    const username = localStorage.getItem('username');
+    if (username && userDisplay) userDisplay.innerText = `سلام، ${username}`;
 });
 
 /* =======================
@@ -105,17 +95,29 @@ function renderProducts(items = products) {
     const container = document.getElementById('product-list');
     if (!container) return;
 
-    container.innerHTML = items.map(product => `
-        <div class="gallery-item">
+    container.innerHTML = ''; // پاک کردن قبلی
+
+    items.forEach(product => {
+        const div = document.createElement('div');
+        div.classList.add('gallery-item');
+
+        div.innerHTML = `
             <img src="${product.image}" alt="${product.name}">
-            <button class="main-btn add-cart-btn" onclick="addToCart(${product.id})">افزودن به سبد خرید</button>
+            <button class="main-btn buy-btn">افزودن به سبد خرید</button>
             <div class="gallery-caption">
                 <h3>${product.name}</h3>
                 <p>${product.price.toLocaleString()} تومان</p>
                 <p>${product.desc || ''}</p>
             </div>
-        </div>
-    `).join('');
+        `;
+
+        container.appendChild(div);
+
+        const buyBtn = div.querySelector('.buy-btn');
+        if (buyBtn) {
+            buyBtn.addEventListener('click', () => addToCart(product.id));
+        }
+    });
 }
 
 /* =======================
@@ -318,48 +320,3 @@ if(themeBtn){
         }
     });
 }
-
-document.addEventListener('DOMContentLoaded', () => {
-    const userDisplay = document.getElementById('user-display');
-    const username = localStorage.getItem('username');
-    if(username && userDisplay){
-        userDisplay.innerText = `سلام، ${username}`;
-    }
-});
-
-const express = require("express");
-const mysql = require("mysql2");
-const bcrypt = require("bcrypt");
-const app = express();
-
-app.use(express.json());
-
-const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "shop_db"
-});
-
-app.post("/register", async (req,res)=>{
-  const hash = await bcrypt.hash(req.body.password,10);
-  db.query(
-    "INSERT INTO users (email,password) VALUES (?,?)",
-    [req.body.email, hash],
-    ()=>res.send("ok")
-  );
-});
-
-app.post("/login",(req,res)=>{
-  db.query(
-    "SELECT * FROM users WHERE email=?",
-    [req.body.email],
-    async (e,r)=>{
-      if(!r[0]) return res.send("fail");
-      const ok = await bcrypt.compare(req.body.password,r[0].password);
-      res.send(ok ? "success" : "fail");
-    }
-  );
-});
-
-app.listen(3000);
