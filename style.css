@@ -16,6 +16,7 @@
     font-family: 'Vazirmatn', 'Arial', sans-serif;
 }
 
+/* BODY (یکی شد – همون ظاهر خودت) */
 body {
     background: url('backgrand1.png') no-repeat center center fixed;
     background-size: cover;
@@ -24,6 +25,25 @@ body {
     flex-direction: column;
     align-items: center;
     color: var(--white);
+    transition: 0.4s;
+}
+
+/* تم روشن (default) */
+body.light {
+    background: #ffffff;
+    color: #000000;
+}
+
+/* تم شب */
+body.dark {
+    background: image(backgrand1)
+
+}
+
+body.light-mode #searchInput {
+    background: white;
+    color: #222;
+    border: 2px solid #ddd;
 }
 
 .gaming-logo {
@@ -55,7 +75,7 @@ body {
     align-items: center;
 }
 
-
+/* NAVBAR */
 .navbar {
     width: 100%;
     background: rgba(0, 0, 0, 0.45);
@@ -65,7 +85,6 @@ body {
     border-bottom: 2px solid var(--dark-gold);
 }
 
-
 .nav-container {
     max-width: 1200px;
     margin: auto;
@@ -74,7 +93,6 @@ body {
     align-items: center;
     padding: 0 20px;
 }
-
 
 .logo {
     font-size: 1.8rem;
@@ -86,12 +104,14 @@ body {
     gap: 10px;
 }
 
-.logo i {
-    font-size: 1.6rem;
+.logo i { font-size: 1.6rem; }
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
 }
-
-
-
 
 .nav-links a,
 .nav-links button {
@@ -116,10 +136,7 @@ body {
     color: #ffffff;
 }
 
-
-.nav-links a::after {
-    display: none;
-}
+.nav-links a::after { display: none; }
 
 .nav-search-container {
     position: relative;
@@ -128,23 +145,23 @@ body {
     align-items: center;
 }
 
+/* SEARCH (تکراری‌ها یکی شدن) */
 #searchInput {
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid var(--dark-gold);
-    border-radius: 20px;
-    padding: 5px 35px 5px 15px; 
-    color: white;
-    font-size: 0.9rem;
+    width: 250px;
+    padding: 10px 20px;
+    border-radius: 25px;
+    border: 2px solid #FFD700;
     outline: none;
+    font-size: 16px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
     transition: 0.3s;
-    width: 180px;
 }
 
 #searchInput:focus {
-    width: 250px;
+    box-shadow: 0 0 5px #FFD700;
+    border-color: #FFD700;
     background: rgba(255, 255, 255, 0.2);
-    border-color: var(--gold);
-    box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
 }
 
 .search-icon {
@@ -155,17 +172,7 @@ body {
     pointer-events: none;
 }
 
-.nav-links {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-.cart-count {
-    font-weight: bold;
-    color: #ffffff;
-}
+.cart-count { font-weight: bold; color: #ffffff; }
 
 .theme-btn {
     background: rgba(255, 215, 0, 0.2);
@@ -178,6 +185,7 @@ body {
     color: #ffffff;
 }
 
+/* TITLES */
 h1 {
     font-size: 3.5rem;
     padding: 25px;
@@ -185,7 +193,6 @@ h1 {
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-    text-shadow: 0 0 5px rgba(0, 0, 0, 0), 0 0 15px rgba(0, 0, 0, 0);
     font-weight: 700;
     letter-spacing: 1px;
 }
@@ -197,27 +204,18 @@ h1 {
     line-height: 0.6;
 }
 
-.add-cart-btn {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    z-index: 2;
-    padding: 5px 10px;
-    font-size: 0.9rem;
-}
-
-
+/* GALLERY */
 .gallery {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 10px; /* فاصله بین محصولات کمتر شد */
+    gap: 10px;
     width: 100%;
 }
 
 .gallery-item {
     position: relative;
-    width: calc(16.6% - 10px); /* تقریبا 6 محصول در ردیف با gap */
+    width: calc(16.6% - 10px);
     height: 195px;
     overflow: hidden;
     border-radius: 11px;
@@ -227,51 +225,41 @@ h1 {
     transition: all 0.3s ease;
 }
 
-
-
-
 .gallery-item img {
     width: 100%;
-    height: 100%; /* کل کارت تصویر */
+    height: 100%;
     object-fit: cover;
     transition: transform 0.5s ease;
 }
 
-.gallery-item:hover img {
-    transform: scale(1.05); /* بزرگنمایی ملایم */
-}
+.gallery-item:hover img { transform: scale(1.05); }
 
-/* Overlay توضیحات و قیمت */
 .gallery-caption {
     position: absolute;
-    bottom: 5px; /* کمی بالاتر از پایین کارت */
+    bottom: 5px;
     left: 50%;
     transform: translateX(-50%);
-    background: rgba(0,0,0,0.75); /* کادر نیمه شفاف */
+    background: rgba(0,0,0,0.75);
     color: var(--gold);
-    font-size: 0.7rem; /* فونت ریزتر */
+    font-size: 0.7rem;
     font-weight: normal;
-    padding: 3px 6px; /* کم حجم */
+    padding: 3px 6px;
     border-radius: 6px;
     text-align: center;
-    white-space: nowrap; /* جلوگیری از شکستن خط */
+    white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis; /* اضافه شدن ... اگر طول متن زیاد بود */
+    text-overflow: ellipsis;
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.3s ease, transform 0.3s ease;
-    max-width: 90%; /* جلوی کشیدگی */
+    max-width: 90%;
 }
 
 .gallery-item:hover .gallery-caption {
     opacity: 1;
-    transform: translateX(-50%) translateY(-5px); /* کمی بالا بیاد */
+    transform: translateX(-50%) translateY(-5px);
 }
 
-
-
-
-/* BUY BUTTON */
 .buy-btn {
     position: absolute;
     top: 15px;
@@ -291,6 +279,7 @@ h1 {
 .gallery-item:hover .buy-btn { opacity: 1; }
 .buy-btn:hover { background: var(--dark-gold); }
 
+/* FOOTER */
 footer {
     margin-top: 80px;
     text-align: center;
@@ -314,12 +303,14 @@ footer {
     flex: 1;
     min-width: 250px;
 }
+
 .footer-section h3 {
     font-size: 1.3rem;
     margin-bottom: 15px;
 }
 
-.footer-section p, .footer-section a {
+.footer-section p,
+.footer-section a {
     color: var(--white);
     margin-bottom: 10px;
     display: block;
@@ -349,103 +340,8 @@ footer {
     border-top: 1px solid var(--dark-gold);
 }
 
-body {
-    background-image: url('backgrand1.png');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    background-repeat: no-repeat;
-    color: white; 
-    transition: 0.4s;
-}
-
-body.light-mode {
-    background-image: none; 
-    background-color: #f4f4f4;
-    color: #121212; 
-}
-
-body.light-mode .gallery-item {
-    background: #fff;
-    color: #222;
-    border: 1px solid #ddd;
-}
-
-.search-container {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    margin: 20px 0;
-}
-
-#searchInput {
-    width: 250px;             /* پهنا */
-    padding: 10px 20px;       /* بالا/پایین 10px، چپ/راست 20px */
-    border-radius: 25px;      /* گردی کامل */
-    border: 2px solid #FFD700; /* نوار زرد */
-    outline: none;
-    font-size: 16px;          /* متن مناسب */
-    box-sizing: border-box;   /* اندازه واقعی شامل padding و border */
-}
-
-#searchInput:focus {
-    box-shadow: 0 0 5px #FFD700;
-    border-color: #FFD700;
-}
-
-body.light-mode #searchInput {
-    background: white;
-    color: #222;
-    border: 2px solid #ddd;
-}
-
-#no-result {
-    display: none;
-    text-align: center;
-    color: #ff4444;
-    font-size: 20px;
-    margin-top: 20px;
-    width: 100%;
-}
-
-.gallery-item {
-    position: relative;
-    overflow: hidden;
-}
-
-.overlay-btn {
-    position: absolute;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.gallery-item:hover .overlay-btn {
-    opacity: 1;
-}
-
-/* تم روشن (default) */
-body.light {
-    background: #ffffff;
-    color: #000000;
-}
-
-/* تم شب */
-body.dark {
-    background: image(backgrand1)
-
-}
-
-/* مثال برای دکمه ها و کارت ها */
-.main-btn {
-    transition: all 0.3s ease;
-}
-
-.login-box {
-    position: relative;
-}
+/* LOGIN */
+.login-box { position: relative; }
 
 .login-btn {
     background: #ffc400;
@@ -494,53 +390,21 @@ body.dark {
     margin-top: 5px;
 }
 
-
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+    .gallery-item { width: calc(25% - 10px); }
+}
 
 @media (max-width: 768px) {
     h1 { font-size: 2.5rem; }
-    .gallery-item { width: 220px; height: 260px; }
+    .gallery-item { width: calc(33.33% - 8px); }
     .nav-container { flex-direction: column; gap: 15px; }
     .footer-content { flex-direction: column; text-align: center; }
 }
 
 @media (max-width: 480px) {
     h1 { font-size: 2rem; }
-    .gallery-item { width: 180px; height: 220px; }
+    .gallery-item { width: calc(50% - 6px); }
     .nav-links { flex-wrap: wrap; justify-content: center; gap: 15px; }
 }
-
-@media (max-width: 768px) {
-    .gallery-item {
-        flex: 0 0 45%; /* دو محصول در هر ردیف */
-    }
-}
-
-@media (max-width: 480px) {
-    .gallery-item {
-        flex: 0 0 90%; /* یک محصول در هر ردیف */
-    }
-}
-
-/* ریسپانسیو لپ‌تاپ و تبلت */
-@media (max-width: 1024px) {
-    .gallery-item {
-        width: calc(25% - 10px); /* 4 محصول در ردیف */
-    }
-}
-
-/* موبایل */
-@media (max-width: 768px) {
-    .gallery-item {
-        width: calc(33.33% - 8px); /* 3 محصول در ردیف */
-    }
-}
-
-/* موبایل خیلی کوچک */
-@media (max-width: 480px) {
-    .gallery-item {
-        width: calc(50% - 6px); /* 2 محصول در ردیف */
-    }
-}
-
-
 
